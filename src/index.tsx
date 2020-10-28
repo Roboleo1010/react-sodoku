@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Sodoku from "./components/Sodoku/Sodoku";
 import "./index.css";
-import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Sodoku />
   </React.StrictMode>,
   document.getElementById("root")
 );

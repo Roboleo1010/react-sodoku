@@ -14,6 +14,7 @@ interface CellProps {
 
 interface CellState {
   number?: number;
+  isGiven: boolean,
   isHighlighted: boolean;
 }
 
@@ -21,13 +22,13 @@ class Cell extends Component<CellProps, CellState> {
   constructor(props: CellProps) {
     super(props);
     this.state = {
-      number: 9,
+      isGiven: false,
       isHighlighted: false,
     };
   }
 
   handleClick() {
-    this.setState({ isHighlighted: true });
+    this.setState({ isHighlighted: !this.state.isHighlighted });
   }
 
   render() {
@@ -47,6 +48,11 @@ class Cell extends Component<CellProps, CellState> {
 
     if (this.state.isHighlighted)
       classNames += "highlighted "
+
+    if (this.state.isGiven)
+      classNames += "number-given "
+    else
+      classNames += "number-added"
 
     return <div className={classNames} onClick={this.handleClick.bind(this)}>{this.state.number}</div>;
   }
