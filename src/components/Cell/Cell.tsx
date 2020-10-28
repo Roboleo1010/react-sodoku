@@ -12,13 +12,15 @@ export enum BorderType {
 interface CellProps {
   borderType: BorderType;
   positionX: number,
-  positionY: number
+  positionY: number,
+  isHighlighted: boolean;
+  onClick: () => void;
 }
 
 interface CellState {
   number?: number;
   isGiven: boolean,
-  isHighlighted: boolean;
+
 }
 
 class Cell extends Component<CellProps, CellState> {
@@ -26,12 +28,7 @@ class Cell extends Component<CellProps, CellState> {
     super(props);
     this.state = {
       isGiven: false,
-      isHighlighted: false
     };
-  }
-
-  handleClick() {
-    this.setState({ isHighlighted: !this.state.isHighlighted });
   }
 
   render() {
@@ -49,7 +46,7 @@ class Cell extends Component<CellProps, CellState> {
     if (this.props.borderType & BorderType.Left)
       classNames += "border-left ";
 
-    if (this.state.isHighlighted)
+    if (this.props.isHighlighted)
       classNames += "highlighted "
 
     if (this.state.isGiven)
@@ -57,7 +54,7 @@ class Cell extends Component<CellProps, CellState> {
     else
       classNames += "number-added"
 
-    return <div className={classNames} onClick={this.handleClick.bind(this)}>{this.state.number}</div>;
+    return <div className={classNames} onClick={() => this.props.onClick()}>{this.state.number}</div>;
   }
 
   componentDidMount() {

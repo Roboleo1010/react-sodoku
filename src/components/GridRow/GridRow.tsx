@@ -11,54 +11,33 @@ export enum GridRowLoacation {
 interface GridRowProps {
   gridRowLoacation: GridRowLoacation;
   rowIndex: number;
+  highlightIndex: number | null;
+  onHighlightedIndexChanged: (index: number) => void;
 }
 
 class GridRow extends Component<GridRowProps> {
+  private readonly borderTypeTop: BorderType[] = [BorderType.Top | BorderType.Left, BorderType.Top, BorderType.Top | BorderType.Right];
+  private readonly borderTypeMiddle: BorderType[] = [BorderType.Left, BorderType.None, BorderType.Right];
+  private readonly borderTypeBottom: BorderType[] = [BorderType.Bottom | BorderType.Left, BorderType.Bottom, BorderType.Bottom | BorderType.Right];
+
   render() {
-    switch (this.props.gridRowLoacation) {
-      case GridRowLoacation.Top:
-        return (
-          <div className="grid-row">
-            <Cell positionX={0} positionY={this.props.rowIndex} borderType={BorderType.Top | BorderType.Left} />
-            <Cell positionX={1} positionY={this.props.rowIndex} borderType={BorderType.Top} />
-            <Cell positionX={2} positionY={this.props.rowIndex} borderType={BorderType.Top | BorderType.Right} />
-            <Cell positionX={3} positionY={this.props.rowIndex} borderType={BorderType.Top | BorderType.Left} />
-            <Cell positionX={4} positionY={this.props.rowIndex} borderType={BorderType.Top} />
-            <Cell positionX={5} positionY={this.props.rowIndex} borderType={BorderType.Top | BorderType.Right} />
-            <Cell positionX={6} positionY={this.props.rowIndex} borderType={BorderType.Top | BorderType.Left} />
-            <Cell positionX={7} positionY={this.props.rowIndex} borderType={BorderType.Top} />
-            <Cell positionX={8} positionY={this.props.rowIndex} borderType={BorderType.Top | BorderType.Right} />
-          </div>
-        );
-      case GridRowLoacation.Middle:
-        return (
-          <div className="grid-row">
-            <Cell positionX={0} positionY={this.props.rowIndex} borderType={BorderType.Left} />
-            <Cell positionX={1} positionY={this.props.rowIndex} borderType={BorderType.None} />
-            <Cell positionX={2} positionY={this.props.rowIndex} borderType={BorderType.Right} />
-            <Cell positionX={3} positionY={this.props.rowIndex} borderType={BorderType.Left} />
-            <Cell positionX={4} positionY={this.props.rowIndex} borderType={BorderType.None} />
-            <Cell positionX={5} positionY={this.props.rowIndex} borderType={BorderType.Right} />
-            <Cell positionX={6} positionY={this.props.rowIndex} borderType={BorderType.Left} />
-            <Cell positionX={7} positionY={this.props.rowIndex} borderType={BorderType.None} />
-            <Cell positionX={8} positionY={this.props.rowIndex} borderType={BorderType.Right} />
-          </div>
-        );
-      case GridRowLoacation.Bottom:
-        return (
-          <div className="grid-row">
-            <Cell positionX={0} positionY={this.props.rowIndex} borderType={BorderType.Bottom | BorderType.Left} />
-            <Cell positionX={1} positionY={this.props.rowIndex} borderType={BorderType.Bottom} />
-            <Cell positionX={2} positionY={this.props.rowIndex} borderType={BorderType.Bottom | BorderType.Right} />
-            <Cell positionX={3} positionY={this.props.rowIndex} borderType={BorderType.Bottom | BorderType.Left} />
-            <Cell positionX={4} positionY={this.props.rowIndex} borderType={BorderType.Bottom} />
-            <Cell positionX={5} positionY={this.props.rowIndex} borderType={BorderType.Bottom | BorderType.Right} />
-            <Cell positionX={6} positionY={this.props.rowIndex} borderType={BorderType.Bottom | BorderType.Left} />
-            <Cell positionX={7} positionY={this.props.rowIndex} borderType={BorderType.Bottom} />
-            <Cell positionX={8} positionY={this.props.rowIndex} borderType={BorderType.Bottom | BorderType.Right} />
-          </div>
-        );
-    }
+    let cells: JSX.Element[] = [];
+    let activeBorderTypeArray: BorderType[] = [];
+
+    if (this.props.gridRowLoacation === GridRowLoacation.Top)
+      activeBorderTypeArray = this.borderTypeTop;
+    else if (this.props.gridRowLoacation === GridRowLoacation.Middle)
+      activeBorderTypeArray = this.borderTypeMiddle;
+    else if (this.props.gridRowLoacation === GridRowLoacation.Bottom)
+      activeBorderTypeArray = this.borderTypeBottom;
+
+    for (let x = 0; x < 9; x++)
+      cells.push(<Cell isHighlighted={this.props.highlightIndex === x} positionX={x} positionY={this.props.rowIndex} borderType={activeBorderTypeArray[x % 3]} onClick={() => { this.props.onHighlightedIndexChanged(x); }} />);
+
+    return (
+      <div className="grid-row">
+        {cells}
+      </div>);
   }
 }
 export default GridRow;

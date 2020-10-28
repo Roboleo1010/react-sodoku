@@ -19,7 +19,9 @@ class SodokuManager {
     private cells: Cell[] = new Array(81);
     private addedCells: number = 0;
 
-    private constructor() { }
+    private constructor() {
+        document.addEventListener("keydown", this.handleKeyPress);
+    }
 
     public static GetInstance(): SodokuManager {
         if (!SodokuManager.instance)
@@ -34,16 +36,30 @@ class SodokuManager {
         this.addedCells++;
 
         if (this.addedCells === 9 * 9)
-            this.SetCells();
+            this.setCells();
     }
 
-    public SetCells() {
+    private setCells() {
         for (let x: number = 0; x < 9; x++)
             for (let y: number = 0; y < 9; y++) {
                 let index: number = x + (y * 9);
                 if (this.puzzle[index] > 0)
-                    this.cells[index].setState({ isGiven: true, number: this.puzzle[index] });
+                    this.cells[index].setState({ isGiven: true, number: this.puzzle[index] }); //profit!
             }
+
+        console.log(this.cells);
+    }
+
+    private handleKeyPress(e: KeyboardEvent) {
+        if (e.key !== "1" && e.key !== "2" && e.key !== "3" && e.key !== "4" && e.key !== "5" && e.key !== "6" && e.key !== "7" && e.key !== "8" && e.key !== "9")
+            return;
+
+        // this.cells.forEach((cell: Cell) => {
+        //     if (cell.state.isHighlighted)
+        //         console.log("hy");
+        // });
+
+        console.log(this.cells);
     }
 
     private CheckForErrors(): boolean {
