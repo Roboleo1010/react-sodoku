@@ -1,11 +1,11 @@
-$cellSize: 60px;
+@import "../Sodoku/Sodoku.scss";
 
 .cell {
   width: $cellSize;
   height: $cellSize;
 
   background-color: white;
-  border: 1px solid black;
+  border: $border-standard $border-style $border-color;
 
   display: flex;
   justify-content: center;
@@ -15,19 +15,19 @@ $cellSize: 60px;
 }
 
 .border-top {
-  border-top: black solid 2px;
+  border-top: $border-thicc $border-style $border-color;
 }
 
 .border-right {
-  border-right: black solid 2px;
+  border-right: $border-thicc $border-style $border-color;
 }
 
 .border-bottom {
-  border-bottom: black solid 2px;
+  border-bottom: $border-thicc $border-style $border-color;
 }
 
 .border-left {
-  border-left: black solid 2px;
+  border-left: $border-thicc $border-style $border-color;
 }
 
 .highlighted {

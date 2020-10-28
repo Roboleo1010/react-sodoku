@@ -1,3 +1,9 @@
+$cellSize: 65px;
+$border-standard: 1px;
+$border-thicc: 2px;
+$border-color: black;
+$border-style: solid;
+
 .sodoku {
   text-align: center;
 
@@ -9,7 +15,7 @@
 
   .grid {
     display: flex;
-    width: 564px;
+    width: ($cellSize * 9) + ($border-thicc * 6) + ($border-standard * 12);
     flex-wrap: wrap;
     border: 2px solid black;
 
