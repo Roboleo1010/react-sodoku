@@ -1,0 +1,44 @@
+$cellSize: 60px;
+
+.cell {
+  width: $cellSize;
+  height: $cellSize;
+
+  background-color: white;
+  border: 1px solid black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.border-top {
+  border-top: black solid 2px;
+}
+
+.border-right {
+  border-right: black solid 2px;
+}
+
+.border-bottom {
+  border-bottom: black solid 2px;
+}
+
+.border-left {
+  border-left: black solid 2px;
+}
+
+.highlighted {
+  background-color: rgb(235, 221, 163);
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
