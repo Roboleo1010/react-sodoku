@@ -7,6 +7,7 @@ import "../Cell/Cell.scss";
 interface GridState {
   highlightedIndexX: number;
   highlightedIndexY: number;
+  highlightedDigit: number;
   sodoku: number[];
 }
 
@@ -14,7 +15,7 @@ class Sodoku extends Component<{}, GridState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      highlightedIndexX: -1, highlightedIndexY: -1, sodoku: [
+      highlightedIndexX: -1, highlightedIndexY: -1, highlightedDigit: 0, sodoku: [
         5, 4, 8, 6, 0, 9, 2, 0, 0,
         0, 0, 0, 0, 0, 0, 5, 0, 8,
         0, 6, 0, 5, 1, 0, 0, 9, 0,
@@ -48,7 +49,7 @@ class Sodoku extends Component<{}, GridState> {
         if (this.state.highlightedIndexX === x && this.state.highlightedIndexY === y)
           cellHighlighted = true;
 
-        cells.push(<Cell borderType={cellBordertype} positionX={x} positionY={y} key={`x:${x} y:${y}`} startingDigit={this.state.sodoku[x + y * 9]} isInitial={this.state.sodoku[x + y * 9] > 0 ? true : false} onClick={() => this.setState({ highlightedIndexX: x, highlightedIndexY: y })} isHighlighted={cellHighlighted} />);
+        cells.push(<Cell borderType={cellBordertype} positionX={x} positionY={y} key={`x:${x} y:${y}`} startingDigit={this.state.sodoku[x + y * 9]} isInitial={this.state.sodoku[x + y * 9] > 0 ? true : false} onClick={(digit: number) => this.setState({ highlightedIndexX: x, highlightedIndexY: y, highlightedDigit: digit })} highlightedDigit={this.state.highlightedDigit} isHighlighted={cellHighlighted} />);
       }
 
     return (

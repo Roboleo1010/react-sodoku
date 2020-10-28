@@ -13,9 +13,10 @@ interface CellProps {
   positionX: number,
   positionY: number,
   isHighlighted: boolean;
+  highlightedDigit: number;
   startingDigit: number;
   isInitial: boolean;
-  onClick: () => void;
+  onClick: (digit: number) => void;
 }
 
 interface CellState {
@@ -43,8 +44,6 @@ class Cell extends Component<CellProps, CellState> {
       this.setState({ digit: 0 });
       return;
     }
-
-    console.log(event);
   }
 
   render() {
@@ -62,8 +61,8 @@ class Cell extends Component<CellProps, CellState> {
     if (this.props.borderType & BorderType.Left)
       classNames += "border-left ";
 
-    if (this.props.isHighlighted)
-      classNames += "highlighted ";
+    if (this.props.isHighlighted || (this.props.highlightedDigit > 0 && this.props.highlightedDigit === this.state.digit))
+      classNames += "highlight ";
 
     if (this.props.isInitial)
       classNames += "number-initial ";
@@ -71,7 +70,7 @@ class Cell extends Component<CellProps, CellState> {
       classNames += "number-added ";
 
 
-    return <div className={classNames} tabIndex={0} onClick={() => this.props.onClick()} onKeyDown={this.keypress.bind(this)} >{this.state.digit > 0 ? this.state.digit : ""}</div>;
+    return <div className={classNames} tabIndex={0} onClick={() => this.props.onClick(this.state.digit)} onKeyDown={this.keypress.bind(this)} >{this.state.digit > 0 ? this.state.digit : ""}</div>;
   }
 }
 export default Cell;
