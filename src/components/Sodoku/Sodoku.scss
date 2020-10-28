@@ -17,7 +17,7 @@ $border-style: solid;
     display: flex;
     width: ($cellSize * 9) + ($border-thicc * 6) + ($border-standard * 12);
     flex-wrap: wrap;
-    border: 2px solid black;
+    border: $border-thicc $border-style $border-color;
 
     font-size: 40px;
   }

@@ -13,11 +13,13 @@ interface CellProps {
   positionX: number,
   positionY: number,
   isHighlighted: boolean;
+  startingDigit: number;
+  isInitial: boolean;
   onClick: () => void;
 }
 
 interface CellState {
-  digit?: number;
+  digit: number;
 }
 
 class Cell extends Component<CellProps, CellState> {
@@ -25,14 +27,24 @@ class Cell extends Component<CellProps, CellState> {
   constructor(props: CellProps) {
     super(props);
 
-    this.state = { digit: 0 };
+    this.state = { digit: this.props.startingDigit };
   }
 
   keypress(event: React.KeyboardEvent) {
-    if (event.key !== "1" && event.key !== "2" && event.key !== "3" && event.key !== "4" && event.key !== "5" && event.key !== "6" && event.key !== "7" && event.key !== "8" && event.key !== "9")
+    if (this.props.isInitial)
       return;
 
-    this.setState({ digit: Number(event.key) })
+    if (event.key === "1" || event.key === "2" || event.key === "3" || event.key === "4" || event.key === "5" || event.key === "6" || event.key === "7" || event.key === "8" || event.key === "9") {
+      this.setState({ digit: Number(event.key) });
+      return;
+    }
+
+    if (event.key === "Backspace" || event.key === "Delete" || event.key === "0") {
+      this.setState({ digit: 0 });
+      return;
+    }
+
+    console.log(event);
   }
 
   render() {
@@ -51,9 +63,15 @@ class Cell extends Component<CellProps, CellState> {
       classNames += "border-left ";
 
     if (this.props.isHighlighted)
-      classNames += "highlighted "
+      classNames += "highlighted ";
 
-    return <div className={classNames} tabIndex={0} onClick={() => this.props.onClick()} onKeyDown={this.keypress.bind(this)} >{this.state.digit ? this.state.digit : ""}</div>;
+    if (this.props.isInitial)
+      classNames += "number-initial ";
+    else
+      classNames += "number-added ";
+
+
+    return <div className={classNames} tabIndex={0} onClick={() => this.props.onClick()} onKeyDown={this.keypress.bind(this)} >{this.state.digit > 0 ? this.state.digit : ""}</div>;
   }
 }
 export default Cell;
