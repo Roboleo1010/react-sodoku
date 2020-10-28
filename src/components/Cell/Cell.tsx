@@ -33,7 +33,6 @@ class Cell extends Component<CellProps, CellState> {
   render() {
     let classNames: string = "cell unselectable ";
 
-
     if (this.props.borderType & BorderType.Top)
       classNames += "border-top ";
 
