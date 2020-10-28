@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SodokuManager from "../SodokuManager";
 
 export enum BorderType {
   None = 0,
@@ -10,6 +11,8 @@ export enum BorderType {
 
 interface CellProps {
   borderType: BorderType;
+  positionX: number,
+  positionY: number
 }
 
 interface CellState {
@@ -23,7 +26,7 @@ class Cell extends Component<CellProps, CellState> {
     super(props);
     this.state = {
       isGiven: false,
-      isHighlighted: false,
+      isHighlighted: false
     };
   }
 
@@ -55,6 +58,10 @@ class Cell extends Component<CellProps, CellState> {
       classNames += "number-added"
 
     return <div className={classNames} onClick={this.handleClick.bind(this)}>{this.state.number}</div>;
+  }
+
+  componentDidMount() {
+    SodokuManager.GetInstance().AddCell(this);
   }
 }
 export default Cell;
