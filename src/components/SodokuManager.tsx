@@ -33,9 +33,10 @@ class SodokuManager {
 
     public AddCell(cell: Cell) {
         // this.cells[cell.props.positionX + (cell.props.positionY * 9)] = cell;
-        // this.addedCells++;
+        this.addedCells++;
 
-        // if (this.addedCells === 9 * 9)
+        if (this.addedCells === 9 * 9)
+            console.log("All cells rdy");
         //     this.setCells();
     }
 

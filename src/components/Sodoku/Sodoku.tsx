@@ -4,7 +4,17 @@ import Cell, { BorderType } from "../Cell/Cell";
 import "./Sodoku.scss";
 import "../Cell/Cell.scss";
 
-class Sodoku extends Component {
+interface GridState {
+  highlightedIndexX: number;
+  highlightedIndexY: number;
+}
+
+class Sodoku extends Component<{}, GridState> {
+  constructor(props: any) {
+    super(props);
+    this.state = { highlightedIndexX: -1, highlightedIndexY: -1 };
+  }
+
   render() {
     let cells: JSX.Element[] = [];
 
@@ -22,7 +32,11 @@ class Sodoku extends Component {
         else if (y === 2 || y === 5 || y === 8)
           cellBordertype += BorderType.Right;
 
-        cells.push(<Cell borderType={cellBordertype} positionX={x} positionY={y} key={`x:${x} y:${y}`} />);
+        let cellHighlighted = false;
+        if (this.state.highlightedIndexX === x && this.state.highlightedIndexY === y)
+          cellHighlighted = true;
+
+        cells.push(<Cell borderType={cellBordertype} positionX={x} positionY={y} key={`x:${x} y:${y}`} onClick={() => this.setState({ highlightedIndexX: x, highlightedIndexY: y })} isHighlighted={cellHighlighted} />);
       }
 
     return (

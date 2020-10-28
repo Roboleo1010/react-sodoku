@@ -12,8 +12,8 @@ interface CellProps {
   borderType: BorderType;
   positionX: number,
   positionY: number,
-  // isHighlighted: boolean;
-  // onClick: () => void;
+  isHighlighted?: boolean;
+  onClick: () => void;
 }
 
 interface CellState {
@@ -37,7 +37,10 @@ class Cell extends Component<CellProps, CellState> {
     if (this.props.borderType & BorderType.Left)
       classNames += "border-left ";
 
-    return <div className={classNames} /*onClick={() => this.props.onClick()}*/></div>;
+    if (this.props.isHighlighted)
+      classNames += "highlighted "
+
+    return <div className={classNames} onClick={() => this.props.onClick()}></div>;
   }
 }
 export default Cell;
