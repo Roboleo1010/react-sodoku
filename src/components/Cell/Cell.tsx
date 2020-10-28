@@ -12,15 +12,28 @@ interface CellProps {
   borderType: BorderType;
   positionX: number,
   positionY: number,
-  isHighlighted?: boolean;
+  isHighlighted: boolean;
   onClick: () => void;
 }
 
 interface CellState {
-  number?: number;
+  digit?: number;
 }
 
 class Cell extends Component<CellProps, CellState> {
+
+  constructor(props: CellProps) {
+    super(props);
+
+    this.state = { digit: 0 };
+  }
+
+  keypress(event: React.KeyboardEvent) {
+    if (event.key !== "1" && event.key !== "2" && event.key !== "3" && event.key !== "4" && event.key !== "5" && event.key !== "6" && event.key !== "7" && event.key !== "8" && event.key !== "9")
+      return;
+
+    this.setState({ digit: Number(event.key) })
+  }
 
   render() {
     let classNames: string = "cell unselectable ";
@@ -40,7 +53,7 @@ class Cell extends Component<CellProps, CellState> {
     if (this.props.isHighlighted)
       classNames += "highlighted "
 
-    return <div className={classNames} onClick={() => this.props.onClick()}></div>;
+    return <div className={classNames} tabIndex={0} onClick={() => this.props.onClick()} onKeyDown={this.keypress.bind(this)} >{this.state.digit ? this.state.digit : ""}</div>;
   }
 }
 export default Cell;

@@ -12,6 +12,10 @@
   align-items: center;
 
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .border-top {
