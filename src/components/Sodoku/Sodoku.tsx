@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Cell, { BorderType } from "../Cell/Cell";
+import Stopwatch from "../Stopwatch/Stopwatch"
 
 import "./Sodoku.scss";
 import "../Cell/Cell.scss";
@@ -54,6 +55,7 @@ class Sodoku extends Component<{}, GridState> {
 
     return (
       <div className="sodoku">
+        <Stopwatch></Stopwatch>
         <div className="grid">
           {cells}
         </div>
