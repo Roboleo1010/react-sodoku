@@ -20,7 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "git push heroku master"
+    "deploy-heroku": "git push heroku master"
   },
   "eslintConfig": {
     "extends": [

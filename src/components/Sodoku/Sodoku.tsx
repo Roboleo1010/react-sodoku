@@ -4,6 +4,7 @@ import Stopwatch from "../Stopwatch/Stopwatch"
 
 import "./Sodoku.scss";
 import "../Cell/Cell.scss";
+import { start } from "repl";
 
 interface GridState {
   highlightedIndexX: number;
@@ -50,7 +51,12 @@ class Sodoku extends Component<{}, GridState> {
         if (this.state.highlightedIndexX === x && this.state.highlightedIndexY === y)
           cellHighlighted = true;
 
-        cells.push(<Cell borderType={cellBordertype} positionX={x} positionY={y} key={`x:${x} y:${y}`} startingDigit={this.state.sodoku[x + y * 9]} isInitial={this.state.sodoku[x + y * 9] > 0 ? true : false} onClick={(digit: number) => this.setState({ highlightedIndexX: x, highlightedIndexY: y, highlightedDigit: digit })} highlightedDigit={this.state.highlightedDigit} isHighlighted={cellHighlighted} />);
+        let startingDigit = this.state.sodoku[x + y * 9];
+        let isInitial = startingDigit > 0 ? true : false;
+        let cellSelectedClick = (digit: number) => this.setState({ highlightedIndexX: x, highlightedIndexY: y, highlightedDigit: digit });
+        let cellUpdated = (newDigit: number) => this.setState({ highlightedDigit: newDigit });
+
+        cells.push(<Cell borderType={cellBordertype} positionX={x} positionY={y} key={`x:${x} y:${y}`} startingDigit={startingDigit} isInitial={isInitial} cellSelectedClick={cellSelectedClick} cellUpdated={cellUpdated} highlightedDigit={this.state.highlightedDigit} isHighlighted={cellHighlighted} />);
       }
 
     return (

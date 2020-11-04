@@ -16,7 +16,8 @@ interface CellProps {
   highlightedDigit: number;
   startingDigit: number;
   isInitial: boolean;
-  onClick: (digit: number) => void;
+  cellSelectedClick: (digit: number) => void;
+  cellUpdated: (newDigit: number) => void;
 }
 
 interface CellState {
@@ -31,23 +32,23 @@ class Cell extends Component<CellProps, CellState> {
     this.state = { digit: this.props.startingDigit };
   }
 
-  keypress(event: React.KeyboardEvent) {
+  onKeypress(event: React.KeyboardEvent) {
     if (this.props.isInitial)
       return;
 
     if (event.key === "1" || event.key === "2" || event.key === "3" || event.key === "4" || event.key === "5" || event.key === "6" || event.key === "7" || event.key === "8" || event.key === "9") {
       this.setState({ digit: Number(event.key) });
-      return;
-    }
+      this.props.cellUpdated(Number(event.key));
 
-    if (event.key === "Backspace" || event.key === "Delete" || event.key === "0") {
+    }
+    else if (event.key === "Backspace" || event.key === "Delete" || event.key === "0") {
       this.setState({ digit: 0 });
-      return;
+      this.props.cellUpdated(0);
     }
   }
 
   render() {
-    let classNames: string = "cell unselectable ";
+    let classNames: string = "cell ";
 
     if (this.props.borderType & BorderType.Top)
       classNames += "border-top ";
@@ -70,7 +71,7 @@ class Cell extends Component<CellProps, CellState> {
       classNames += "number-added ";
 
 
-    return <div className={classNames} tabIndex={0} onClick={() => this.props.onClick(this.state.digit)} onKeyDown={this.keypress.bind(this)} >{this.state.digit > 0 ? this.state.digit : ""}</div>;
+    return <div className={classNames} tabIndex={0} onClick={() => this.props.cellSelectedClick(this.state.digit)} onKeyDown={this.onKeypress.bind(this)} >{this.state.digit > 0 ? this.state.digit : ""}</div>;
   }
 }
 export default Cell;
