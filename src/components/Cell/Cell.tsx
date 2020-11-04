@@ -10,26 +10,17 @@ export enum BorderType {
 
 interface CellProps {
   borderType: BorderType;
-  positionX: number,
-  positionY: number,
   isHighlighted: boolean;
-  highlightedDigit: number;
-  startingDigit: number;
   isInitial: boolean;
+  digit: number;
   cellSelectedClick: (digit: number) => void;
   cellUpdated: (newDigit: number) => void;
 }
 
-interface CellState {
-  digit: number;
-}
-
-class Cell extends Component<CellProps, CellState> {
+class Cell extends Component<CellProps> {
 
   constructor(props: CellProps) {
     super(props);
-
-    this.state = { digit: this.props.startingDigit };
   }
 
   onKeypress(event: React.KeyboardEvent) {
@@ -37,12 +28,10 @@ class Cell extends Component<CellProps, CellState> {
       return;
 
     if (event.key === "1" || event.key === "2" || event.key === "3" || event.key === "4" || event.key === "5" || event.key === "6" || event.key === "7" || event.key === "8" || event.key === "9") {
-      this.setState({ digit: Number(event.key) });
       this.props.cellUpdated(Number(event.key));
 
     }
     else if (event.key === "Backspace" || event.key === "Delete" || event.key === "0") {
-      this.setState({ digit: 0 });
       this.props.cellUpdated(0);
     }
   }
@@ -62,7 +51,7 @@ class Cell extends Component<CellProps, CellState> {
     if (this.props.borderType & BorderType.Left)
       classNames += "border-left ";
 
-    if (this.props.isHighlighted || (this.props.highlightedDigit > 0 && this.props.highlightedDigit === this.state.digit))
+    if (this.props.isHighlighted)
       classNames += "highlight ";
 
     if (this.props.isInitial)
@@ -70,8 +59,7 @@ class Cell extends Component<CellProps, CellState> {
     else
       classNames += "number-added ";
 
-
-    return <div className={classNames} tabIndex={0} onClick={() => this.props.cellSelectedClick(this.state.digit)} onKeyDown={this.onKeypress.bind(this)} >{this.state.digit > 0 ? this.state.digit : ""}</div>;
+    return <div className={classNames} tabIndex={0} onClick={() => this.props.cellSelectedClick(this.props.digit)} onKeyDown={this.onKeypress.bind(this)} >{this.props.digit > 0 ? this.props.digit : ""}</div>;
   }
 }
 export default Cell;
