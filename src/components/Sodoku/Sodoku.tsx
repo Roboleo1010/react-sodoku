@@ -12,16 +12,21 @@ interface GridState {
   activeCellY: number;
   highlightedDigit: number;
   sodoku: SodokuDigit[];
+  cellSize: number;
 }
 
 class Sodoku extends Component<{}, GridState> {
   constructor(props: any) {
     super(props);
 
-    this.state = { activeCellX: -1, activeCellY: -1, highlightedDigit: 0, sodoku: SodokuManager.getSodoku() };
+    this.state = { activeCellX: -1, activeCellY: -1, highlightedDigit: 0, sodoku: SodokuManager.getSodoku(), cellSize: 50 };
 
     document.addEventListener("keydown", (event) => this.keypress(event));
+    window.addEventListener("resize", (event) => this.resize(event));
+    this.resize();
   }
+  private totalBorderSize: number = 2 * 6 + 1 * 12; //border-thicc * 6 + border-standard * 12
+
 
   //#region  Helpers
   getSodokuCellFromSodoku(x: number, y: number): SodokuDigit {
@@ -50,6 +55,17 @@ class Sodoku extends Component<{}, GridState> {
       this.updateCell(0);
   }
 
+  resize(event?: UIEvent) {
+    let newSize = 0;
+
+    newSize = Math.floor((window.innerWidth - this.totalBorderSize) / 9);
+
+    if (newSize > 50)
+      newSize = 50;
+
+    this.setState({ cellSize: newSize });
+  }
+
   buildCells(): JSX.Element[] {
     let cells: JSX.Element[] = [];
 
@@ -57,7 +73,7 @@ class Sodoku extends Component<{}, GridState> {
       for (let x = 0; x < 9; x++) {
         let cellBordertype: BorderType = BorderType.None;
 
-        //#region Border
+        // Border generation
         if (y === 0 || y === 3 || y === 6)
           cellBordertype += BorderType.Top;
         else if (y === 2 || y === 5 || y === 8)
@@ -67,7 +83,6 @@ class Sodoku extends Component<{}, GridState> {
           cellBordertype += BorderType.Left;
         else if (x === 2 || x === 5 || x === 8)
           cellBordertype += BorderType.Right;
-        //#endregion
 
         let sodokuDigit = this.getSodokuCellFromSodoku(x, y);
 
@@ -77,7 +92,7 @@ class Sodoku extends Component<{}, GridState> {
 
         let cellSelectedClick = (digit: number) => this.setState({ activeCellX: x, activeCellY: y, highlightedDigit: digit });
 
-        cells.push(<Cell borderType={cellBordertype} key={`x:${x} y:${y}`} digit={sodokuDigit.digit} isInitial={sodokuDigit.isGiven} cellSelectedClick={cellSelectedClick} cellUpdated={this.updateCell.bind(this)} isHighlighted={cellHighlighted} hasError={false} />);
+        cells.push(<Cell borderType={cellBordertype} key={`x:${x} y:${y}`} digit={sodokuDigit.digit} isInitial={sodokuDigit.isGiven} cellSelectedClick={cellSelectedClick} cellUpdated={this.updateCell.bind(this)} isHighlighted={cellHighlighted} hasError={false} size={this.state.cellSize} />);
       }
 
     return cells;
@@ -93,16 +108,19 @@ class Sodoku extends Component<{}, GridState> {
   }
 
   render() {
+
+    const style = { width: `${this.state.cellSize * 9 + this.totalBorderSize}px`, height: `${this.state.cellSize * 9 + this.totalBorderSize}px` };
+
     return (
       <div className="container">
         <Stopwatch></Stopwatch>
-        <div className="sodoku">
+        <div className="sodoku" style={style}>
           {this.buildCells()}
         </div>
         <div className="input-row">
           {this.buildInputRow()}
         </div>
-      </div>
+      </div >
     );
   }
 }

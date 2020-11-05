@@ -1,7 +1,5 @@
 @import "../Sodoku/Sodoku.scss";
 
 .input {
-    width: $cellSize;
-    height: $cellSize;
     margin-right: $border-standard + $border-thicc;
 }

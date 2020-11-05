@@ -14,6 +14,7 @@ interface CellProps {
   isInitial: boolean;
   hasError: boolean;
   digit: number;
+  size: number;
   cellSelectedClick: (digit: number) => void;
   cellUpdated: (newDigit: number) => void;
 }
@@ -45,7 +46,9 @@ class Cell extends Component<CellProps> {
     else
       classNames += "number-added ";
 
-    return <div className={classNames} tabIndex={0} onClick={() => this.props.cellSelectedClick(this.props.digit)}>{this.props.digit > 0 ? this.props.digit : ""}</div>;
+    const style = { width: `${this.props.size}px`, height: `${this.props.size}px`, fontSize: `${this.props.size}px` };
+
+    return <div className={classNames} style={style} tabIndex={0} onClick={() => this.props.cellSelectedClick(this.props.digit)}>{this.props.digit > 0 ? this.props.digit : ""}</div>;
   }
 }
 export default Cell;

@@ -1,9 +1,6 @@
 @import "../Sodoku/Sodoku.scss";
 
 .cell {
-  width: $cellSize;
-  height: $cellSize;
-
   background-color: white;
   border: $border-standard $border-style $border-color;
 
