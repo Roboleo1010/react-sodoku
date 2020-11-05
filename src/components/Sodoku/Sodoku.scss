@@ -1,24 +1,28 @@
-$cellSize: 65px;
+$cellSize: 50px;
 $border-standard: 1px;
 $border-thicc: 2px;
 $border-color: black;
 $border-style: solid;
 
-.sodoku {
+.container {
   text-align: center;
-
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  .grid {
+  .sodoku {
     display: flex;
     width: ($cellSize * 9) + ($border-thicc * 6) + ($border-standard * 12);
     flex-wrap: wrap;
     border: $border-thicc $border-style $border-color;
 
     font-size: 40px;
+  }
+
+  .input-row {
+    margin-top: 30px;
+    display: flex;
   }
 }
