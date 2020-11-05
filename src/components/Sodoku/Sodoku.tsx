@@ -16,6 +16,9 @@ interface GridState {
 }
 
 class Sodoku extends Component<{}, GridState> {
+  private sodokuBorder: number = 2 * 6 + 1 * 12; //border-thicc * 6 + border-standard * 12
+  private sodokuPadding: number = 50;
+
   constructor(props: any) {
     super(props);
 
@@ -24,7 +27,7 @@ class Sodoku extends Component<{}, GridState> {
     document.addEventListener("keydown", (event) => this.keypress(event));
     window.addEventListener("resize", (event) => this.resize(event));
   }
-  private totalBorderSize: number = 2 * 6 + 1 * 12; //border-thicc * 6 + border-standard * 12
+
 
   componentDidMount() {
     if (this.state.cellSize === 0)
@@ -62,17 +65,15 @@ class Sodoku extends Component<{}, GridState> {
   }
 
   resize(event?: UIEvent) {
+    let size = 0;
+    let padding = window.innerWidth / 20;
 
-    let newSize = 0;
+    size = (window.innerWidth - this.sodokuBorder - padding) / 9;
 
-    newSize = (window.innerWidth - this.totalBorderSize) / 9;
+    if (size > 50)
+      size = 50;
 
-    console.log("Calculated size:", newSize);
-
-    if (newSize > 50)
-      newSize = 50;
-
-    this.setState({ cellSize: newSize });
+    this.setState({ cellSize: size });
   }
 
   buildCells(): JSX.Element[] {
@@ -117,7 +118,7 @@ class Sodoku extends Component<{}, GridState> {
   }
 
   render() {
-    const style = { width: `${(this.state.cellSize * 9) + this.totalBorderSize}px`, height: `${(this.state.cellSize * 9) + this.totalBorderSize}px` };
+    const style = { width: `${(this.state.cellSize * 9) + this.sodokuBorder}px`, height: `${(this.state.cellSize * 9) + this.sodokuBorder}px` };
 
     return (
       <div className="container">
