@@ -19,14 +19,17 @@ class Sodoku extends Component<{}, GridState> {
   constructor(props: any) {
     super(props);
 
-    this.state = { activeCellX: -1, activeCellY: -1, highlightedDigit: 0, sodoku: SodokuManager.getSodoku(), cellSize: 50 };
+    this.state = { activeCellX: -1, activeCellY: -1, highlightedDigit: 0, sodoku: SodokuManager.getSodoku(), cellSize: 0 };
 
     document.addEventListener("keydown", (event) => this.keypress(event));
     window.addEventListener("resize", (event) => this.resize(event));
-    this.resize();
   }
   private totalBorderSize: number = 2 * 6 + 1 * 12; //border-thicc * 6 + border-standard * 12
 
+  componentDidMount() {
+    if (this.state.cellSize === 0)
+      this.resize();
+  }
 
   //#region  Helpers
   getSodokuCellFromSodoku(x: number, y: number): SodokuDigit {
@@ -40,7 +43,10 @@ class Sodoku extends Component<{}, GridState> {
 
   updateCell(newDigit: number) {
     let sodoku = this.state.sodoku;
-    sodoku[this.getIndexFrom1dArray(this.state.activeCellX, this.state.activeCellY)] = { digit: newDigit, isGiven: false }//IsGiven cant be true, because this case is handld in the cell update method
+    if (sodoku[this.getIndexFrom1dArray(this.state.activeCellX, this.state.activeCellY)].isGiven)
+      return;
+
+    sodoku[this.getIndexFrom1dArray(this.state.activeCellX, this.state.activeCellY)] = { digit: newDigit, isGiven: false }
 
     this.setState({ highlightedDigit: newDigit, sodoku: sodoku });
   }
@@ -56,9 +62,12 @@ class Sodoku extends Component<{}, GridState> {
   }
 
   resize(event?: UIEvent) {
+
     let newSize = 0;
 
-    newSize = Math.floor((window.innerWidth - this.totalBorderSize) / 9);
+    newSize = (window.innerWidth - this.totalBorderSize) / 9;
+
+    console.log("Calculated size:", newSize);
 
     if (newSize > 50)
       newSize = 50;
@@ -108,8 +117,7 @@ class Sodoku extends Component<{}, GridState> {
   }
 
   render() {
-
-    const style = { width: `${this.state.cellSize * 9 + this.totalBorderSize}px`, height: `${this.state.cellSize * 9 + this.totalBorderSize}px` };
+    const style = { width: `${(this.state.cellSize * 9) + this.totalBorderSize}px`, height: `${(this.state.cellSize * 9) + this.totalBorderSize}px` };
 
     return (
       <div className="container">
