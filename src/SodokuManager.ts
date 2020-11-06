@@ -29,7 +29,7 @@ class SodokuManager {
     ];
 
     public static getSodoku(): SodokuDigit[] {
-        return this.buildSodoku(this.sodoku1)
+        return this.buildSodoku(this.sodoku2)
     }
 
     private static buildSodoku(sodokuAsNumbers: number[]): SodokuDigit[] {
