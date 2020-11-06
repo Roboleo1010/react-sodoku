@@ -28,8 +28,20 @@ class SodokuManager {
         0, 8, 0, 4, 0, 0, 0, 3, 2
     ];
 
+    static sodoku3: number[] = [
+        0, 8, 5, 0, 0, 0, 0, 0, 0,
+        0, 3, 0, 0, 0, 0, 1, 6, 0,
+        0, 0, 0, 0, 6, 0, 0, 0, 0,
+        5, 6, 0, 4, 0, 0, 0, 0, 0,
+        3, 0, 0, 0, 0, 0, 6, 8, 0,
+        0, 9, 0, 0, 8, 3, 2, 0, 0,
+        8, 0, 0, 3, 4, 0, 0, 0, 0,
+        0, 0, 6, 8, 7, 1, 3, 4, 5,
+        4, 0, 3, 0, 0, 0, 8, 9, 0
+    ];
+
     public static getSodoku(): SodokuDigit[] {
-        return this.buildSodoku(this.sodoku2)
+        return this.buildSodoku(this.sodoku3)
     }
 
     private static buildSodoku(sodokuAsNumbers: number[]): SodokuDigit[] {
